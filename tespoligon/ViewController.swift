@@ -90,17 +90,17 @@ class ViewController: UIViewController {
      */
     
     struct PushIncomongStruct: Codable {
-        var camera  : String
-        var alert   : String
-        var start   : String
-        var end     : String
+        var camera  : String?
+        var alert   : String?
+        var start   : String?
+        var end     : String?
         var original_link   : String?
         var upload_link     : String?
-        var url     : String
+        var url     : String?
         var thumbnail_link  : String?
         var converted_links : String?
-        var type    : String
-        var camera_data     : CameraData
+        var type    : String?
+        var camera_data     : CameraData?
         var camera_relative : String?
         var alert_relative  : String?
         var original_link_relative  : String?
@@ -108,7 +108,7 @@ class ViewController: UIViewController {
         var url_relative    : String?
         var thumbnail_link_relative : String?
         
-        init(camera : String, alert : String, start : String, end : String, original_link : String, upload_link : String, url : String, thumbnail_link  : String, converted_links : String, type : String, camera_data : CameraData, camera_relative : String, alert_relative : String, original_link_relative : String, upload_link_relative : String, url_relative : String, thumbnail_link_relative : String) {
+        init(camera : String?, alert : String?, start : String?, end : String?, original_link : String?, upload_link : String?, url : String?, thumbnail_link  : String?, converted_links : String?, type : String?, camera_data : CameraData?, camera_relative : String?, alert_relative : String?, original_link_relative : String?, upload_link_relative : String?, url_relative : String?, thumbnail_link_relative : String?) {
             
             self.camera = camera
             self.alert = alert
@@ -135,7 +135,7 @@ class ViewController: UIViewController {
         var lq_stream_url : String?
         var box : String?
         var name : String?
-        var url : String // strong
+        var url : String?
         var thumbnail_link : String?
         var active : Bool?
         var stream_play_link : String?
@@ -146,7 +146,7 @@ class ViewController: UIViewController {
         var thumbnail_link_relative : String?
         var image_link_relative : String?
         
-        init(hq_stream_url : String, lq_stream_url : String, box : String, name : String, url : String, thumbnail_link : String, active : Bool, stream_play_link : String, emergency_phone_number : Int, image_link : String, box_relative : String, url_relative : String, thumbnail_link_relative : String, image_link_relative : String) {
+        init(hq_stream_url : String?, lq_stream_url : String?, box : String?, name : String?, url : String?, thumbnail_link : String?, active : Bool?, stream_play_link : String?, emergency_phone_number : Int?, image_link : String?, box_relative : String?, url_relative : String?, thumbnail_link_relative : String?, image_link_relative : String?) {
             self.hq_stream_url = hq_stream_url
             self.lq_stream_url = lq_stream_url
             self.box = box
@@ -186,12 +186,12 @@ class ViewController: UIViewController {
 
     func createPushIncomongStruct() -> PushIncomongStruct {
         let dataObj = PushIncomongStruct(
-            camera: "http://172.17.0.1/camera/3/",
-            alert: "http://172.17.0.1/alert_type/3/",
+            camera: "...",
+            alert: "...",
             start: "2018-06-09T11:39:39Z",
             end: "2018-06-09T11:40:09Z",
-            original_link: "http://192.168.1.74/video.mp4",
-            upload_link: "http://172.17.0.1/upload/3/",
+            original_link: "...",
+            upload_link: "...",
             url: "http://172.17.0.1/alert/3/",
             thumbnail_link: "http://192.168.1.74/thumbnail.jpg",
             converted_links: "http://192.168.1.74/nnm.jpg",
@@ -208,8 +208,15 @@ class ViewController: UIViewController {
     }
     
     func createAlert(incoming: PushIncomongStruct) -> PushIncomongStruct {
-        let modifyStruct = createPushIncomongStruct()
+        var modifyStruct = createPushIncomongStruct()
         
+        if !(modifyStruct.camera_relative?.isEmpty)! {
+            modifyStruct.camera = modifyStruct.camera_relative
+        }
+        
+        if !(modifyStruct.alert_relative?.isEmpty)! {
+            modifyStruct.alert = modifyStruct.alert_relative
+        }
         
         return modifyStruct
     }
@@ -223,9 +230,8 @@ class ViewController: UIViewController {
             print("incomingPush : \(push)")
         }
         
+        let alert = createAlert(incoming: incomingPush!)
+        print("incomingAlert : \(alert)")
     }
-    
-
-
 }
 
